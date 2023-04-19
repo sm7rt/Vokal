@@ -1,0 +1,8 @@
+# node module
+node_modules/**/*
+src/modules/**/*
+build/**/*
+
+# Bundle artifact
+/.scannerwork
+/coverage

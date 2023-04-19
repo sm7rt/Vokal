@@ -1,0 +1,66 @@
+{
+  "BAD_REQUEST_TITLE": "400 - Bad Parameters",
+  "BAD_REQUEST_TEXT": "You are trying to access a page with wrong parameter.",
+
+  "NOT_FOUND_TITLE": "404 - page not found",
+  "NOT_FOUND_TEXT": "The page you are looking for might have been removed had its name changed or is temporarily unavailable.",
+
+  "UNAUTHORIZED_TITLE": "403 - access forbidden",
+  "UNAUTHORIZED_TEXT": "You tried to access a page you did not have prior authorization for.",
+
+  "SERVER_ERROR_TITLE": "500 - internal server error",
+  "SERVER_ERROR_TEXT": "An error occured while trying to perform this action. Please Retry later.",
+
+  "HOUR": "few minutes",
+  "HOUR_plural": "{{count}} hours",
+  "HOUR_NEXT": "Soon",
+  "HOUR_NEXT_plural": "within the next {{count}} hours",
+  "SERVER_MAINTENANCE_TITLE": "Server Maintenance",
+  "SERVER_MAINTENANCE_TEXT": "Flop Ad is temporary unavailable for maintenance.\nWe expect to be back online $t(HOUR_NEXT, {'count': {{availableHoursLeft}}}).\nWe apologize for the inconvenience.",
+
+  "MAINTENANCE_PLANIFIED_TEXT": "Flop AD will be temporary unavailable due to scheduled maintenance in $t(HOUR, {'count': {{timeRemaining}}}).\nWe expect to be back online $t(HOUR_NEXT, {'count': {{ timeRemainingFromEnd }}}).\nWe apologize for the inconvenience.",
+
+  "BACK_TO_HOME_PAGE": "Back to home page",
+
+  "STREET_ADDRESS_LABEL": "Street Address",
+  "STATE_LABEL": "State/Province/Region",
+  "ZIP_CODE_LABEL": "Zip Code",
+  "COUNTRY_LABEL": "Country",
+  "CITY_LABEL": "City",
+
+  "VALIDATOR_EMAIL": "is not a valid email address",
+  "VALIDATOR_REQUIRED": "is required",
+  "VALIDATOR_URL": "is not a valid url",
+
+  "GLOBAL_ERROR_MESSAGE": "Sorry but an error occured. {{action}}. Please Try Later.",
+  "PROFILE": "Profile",
+  "ACCOUNT_SETTINGS": "Account Settings",
+  "LOGOUT": "Logout",
+  "HELP": "Need help ?",
+
+  "ADMINISTRATION_MENU": "Administration",
+  "CONTRACTS_MENU": "Contracts",
+  "USER_MANAGMENT_MENU": "Users management",
+  "SPECIAL_EVENTS_MENU": "Special poker events",
+  "CREATE_MANAGE_MENU": "Create & Manage",
+  "BC_CREATE_MANAGE_MENU": "CREATE & MANAGE SPECIAL POKER EVENTS",
+  "PERFORMANCE_OVERVIEW": "Performance overview",
+  "WEEKLY_TOURNAMENT_MENU": "Weekly tournaments",
+  "CASH_GAME_MENU": "Cash games",
+  "ROOM_CONFIGURATION_MENU": "Room configuration",
+  "FLOP_CASH_GAME_MENU": "Flop cash games",
+  "INVOICES_MENU": "Invoices",
+  "SETTINGS_MENU": "Settings",
+
+  "SEND_BUTTON": "Send",
+  "CANCEL_BUTTON": "Cancel",
+  "CREATE_BUTTON": "Create",
+  "START_BUTTON": "Start",
+  "APPLY_BUTTON": "Apply",
+  "DELETE_BUTTON": "Delete",
+  "REMOVE_BUTTON": "Remove",
+  "DECLINE_BUTTON": "Decline",
+  "CLOSE_BUTTON": "Close",
+
+  "ADD_PLAYER": "Add player"
+}

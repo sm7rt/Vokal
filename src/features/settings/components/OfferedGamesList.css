@@ -1,0 +1,40 @@
+.offeredGameList ul.ant-list-item-action {
+  margin-left: 20px;
+}
+
+.offeredGameList ul.ant-list-item-action em {
+  width: 0px;
+}
+
+.offeredGameList .ant-list-empty-text {
+  display: none;
+}
+
+.offeredGameItem {
+  background: #fbfbfb;
+  border-radius: 20px;
+  padding: 6px 16px;
+  border: 1px solid #c4c4c4;
+}
+
+.variantInput,
+.blindInput {
+  padding-bottom: 0 !important;
+}
+
+.blindInput {
+  margin-right: 3px !important;
+}
+
+.variantInput div.ant-form-item-label,
+.blindInput div.ant-form-item-label {
+  padding: 0px 5px !important;
+}
+
+.variantInput input {
+  width: 150px;
+}
+
+.blindInput input {
+  width: 60px;
+}

@@ -1,0 +1,42 @@
+{
+  "YES_BUTTON": "Yes",
+  "NO_BUTTON": "No",
+
+  "VARIANT_LABEL": "Variant",
+  "BLIND_LABEL": "Blinds",
+  "SLASH": "/",
+
+  "SETTINGS_GENERAL_INFORMATION_TITLE": "General Venue Information",
+  "SETTINGS_ADDRESS_TITLE": "Address",
+  "SETTINGS_CONTACT_TITLE": "Contact",
+
+  "SETTINGS_BRAND_LOGO_LABEL": "Brand logo",
+  "SETTINGS_BRAND_NAME_LABEL": "Poker name",
+  "SETTINGS_EMAIL_LABEL": "Customer support email address",
+  "SETTINGS_PHONE_LABEL": "Customer support phone number",
+  "SETTINGS_WEB_SITE_LABEL": "Website URL",
+
+  "SETTINGS_NEXT_STEP_BUTTON": "Next step",
+
+  "SETTINGS_GENERAL_INFORMATION_TEXT": "In order to be able to promote your brand using the Flop Ad platform, you need to provide some basic information. They will be used to display your brand in our casino directory in the Flop mobile application. You will be able to change these information from the settings panel later if necessary.",
+
+  "SETTINGS_POKER_ROOM_INFORMATION_TITLE": "Poker Room Information",
+  "SETTINGS_POKER_ROOM_INFORMATION_TEXT": "Set the general information about the games available in your poker room (tables, variants, blinds, buy-in, etc.) to be able to share these information with flop users and attract more players into your room.",
+
+  "SETTINGS_POKER_ROOM_CHARACTERISTICS_TITLE": "Poker room characteristics",
+  "SETTINGS_OFFERED_GAMES_TITLE": "Offered games",
+
+  "SETTINGS_PKR_CURRENCY_LABEL": "Currency used",
+  "SETTINGS_PKR_LEGAL_AGE_LABEL": "Legal age to enter",
+  "SETTINGS_PKR_DRESS_CODE_LABEL": "Dress code",
+
+  "SETTINGS_DONE_BUTTON": "I'm done",
+
+  "SETTINGS_ADD_FIRST_GAME": "Click here to add your first game",
+  "SETTINGS_ADD_ANOTHER_GAME": "Add another game",
+  "SETTINGS_REMOVE_GAME_CONFIRMATION_TEXT": "Are you sure delete this game?",
+
+  "SAVE_GENERAL_INFORMATION_ACTION_ERROR": "We cannot save your general information",
+  "SAVE_POKER_ROOM_INFORMATION_ACTION_ERROR": "We cannot save your poker room information",
+  "SAVE_PROFILE_ACTION_ERROR": "We cannot save your profile information"
+}

@@ -1,0 +1,385 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Service used to handle new notifications and to render it to the UI",
+    "version": "1.0",
+    "title": "Flop Notifications Service",
+    "contact": {
+      "name": "WeOpt",
+      "url": "http://www.we-opt.com",
+      "email": "r.gelibert@we-opt.com"
+    }
+  },
+  "host": "a73ff76e5aa0b11e9b0610af9df371a1-c7a564daa90c3f2c.elb.eu-west-1.amazonaws.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Admin",
+      "description": "Administration controller for notifications."
+    },
+    {
+      "name": "All",
+      "description": "Service used to manage the device token list of a user."
+    },
+    {
+      "name": "Device Token",
+      "description": "Service used to manage the device token list of a user."
+    },
+    {
+      "name": "Notifications",
+      "description": "Service providing everything we need to handle notifications. (get the notifications, mark as read / dismissed, etc...)"
+    }
+  ],
+  "paths": {
+    "/api/admin/device-token/users/empty": {
+      "get": {
+        "tags": ["Admin"],
+        "summary": "Get all profiles without device token",
+        "operationId": "getAllProfilesWithoutDeviceTokenUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/admin/push/send": {
+      "post": {
+        "tags": ["Admin"],
+        "summary": "Sending massive push notifications to all users.",
+        "operationId": "sendMassivePushNotificationsUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "message",
+            "description": "The message to display, if not served, a default value is taken",
+            "required": false,
+            "schema": { "type": "string" }
+          },
+          {
+            "in": "body",
+            "name": "url",
+            "description": "The url to redirect the message, by default to the stores",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/device-token/{deviceToken}": {
+      "delete": {
+        "tags": ["All", "Device Token"],
+        "summary": "deleteDeviceToken",
+        "operationId": "deleteDeviceTokenUsingDELETE",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "deviceToken",
+            "in": "path",
+            "description": "deviceToken",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/device-token/{deviceType}/{deviceToken}": {
+      "post": {
+        "tags": ["All", "Device Token"],
+        "summary": "addDeviceToken",
+        "operationId": "addDeviceTokenUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "deviceToken",
+            "in": "path",
+            "description": "deviceToken",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "deviceType",
+            "in": "path",
+            "description": "deviceType",
+            "required": true,
+            "type": "string",
+            "enum": ["ANDROID", "IOS"]
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/version": {
+      "get": {
+        "tags": ["All", "Notifications"],
+        "summary": "Service's version",
+        "operationId": "versionUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{notificationId}/dismiss": {
+      "put": {
+        "tags": ["All", "Notifications"],
+        "summary": "dismissNotification",
+        "operationId": "dismissNotificationUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "path",
+            "description": "notificationId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{notificationId}/read": {
+      "put": {
+        "tags": ["All", "Notifications"],
+        "summary": "readNotification",
+        "operationId": "readNotificationUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "notificationId",
+            "in": "path",
+            "description": "notificationId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{notificationType}/{accountId}": {
+      "get": {
+        "tags": ["All", "Notifications"],
+        "summary": "findPaginatedNotifications",
+        "operationId": "findPaginatedNotificationsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "accountId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "notificationType",
+            "in": "path",
+            "description": "notificationType",
+            "required": true,
+            "type": "string",
+            "enum": ["POST", "FRIEND_REQUEST", "GAME"]
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number we want to get",
+            "required": false,
+            "type": "integer",
+            "default": 1,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Paging size",
+            "required": false,
+            "type": "integer",
+            "default": 20,
+            "format": "int32",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Page«NotificationMessageDTO»" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{notificationType}/{accountId}/count": {
+      "get": {
+        "tags": ["All", "Notifications"],
+        "summary": "countPaginatedNotifications",
+        "operationId": "countPaginatedNotificationsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "accountId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "notificationType",
+            "in": "path",
+            "description": "notificationType",
+            "required": true,
+            "type": "string",
+            "enum": ["POST", "FRIEND_REQUEST", "GAME"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "type": "integer", "format": "int64" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "NotificationMessageDTO": {
+      "type": "object",
+      "properties": {
+        "creationDate": { "type": "string", "format": "date-time" },
+        "entityId": { "type": "string" },
+        "entityType": {
+          "type": "string",
+          "enum": ["POST", "FRIEND_REQUEST", "GAME"]
+        },
+        "id": { "type": "string" },
+        "message": { "type": "string" },
+        "notificationType": {
+          "type": "string",
+          "enum": [
+            "SEND_FRIEND_REQUEST",
+            "CONFIRM_FRIEND_REQUEST",
+            "DECLINE_FRIEND_REQUEST",
+            "CANCEL_FRIEND_REQUEST",
+            "TAG_IN_POST",
+            "POST_COMMENTED",
+            "POST_COMMENT_DELETED",
+            "GAME_COMMENTED",
+            "GAME_COMMENT_DELETED",
+            "POST_REPOSTED",
+            "POST_REACTED",
+            "POST_UNREACTED",
+            "POST_DELETED",
+            "GAME_INVITATION_SENT",
+            "GAME_JOINED",
+            "GAME_QUITED",
+            "GAME_MODIFIED"
+          ]
+        },
+        "read": { "type": "boolean" },
+        "sourceId": {
+          "type": "array",
+          "items": { "type": "integer", "format": "int64" }
+        },
+        "targetId": { "type": "integer", "format": "int64" }
+      },
+      "title": "NotificationMessageDTO"
+    },
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "offset": { "type": "integer", "format": "int64" },
+        "pageNumber": { "type": "integer", "format": "int32" },
+        "pageSize": { "type": "integer", "format": "int32" },
+        "paged": { "type": "boolean" },
+        "sort": { "$ref": "#/definitions/Sort" },
+        "unpaged": { "type": "boolean" }
+      },
+      "title": "Pageable"
+    },
+    "Page«NotificationMessageDTO»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/NotificationMessageDTO" }
+        },
+        "empty": { "type": "boolean" },
+        "first": { "type": "boolean" },
+        "last": { "type": "boolean" },
+        "number": { "type": "integer", "format": "int32" },
+        "numberOfElements": { "type": "integer", "format": "int32" },
+        "pageable": { "$ref": "#/definitions/Pageable" },
+        "size": { "type": "integer", "format": "int32" },
+        "sort": { "$ref": "#/definitions/Sort" },
+        "totalElements": { "type": "integer", "format": "int64" },
+        "totalPages": { "type": "integer", "format": "int32" }
+      },
+      "title": "Page«NotificationMessageDTO»"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": { "type": "boolean" },
+        "sorted": { "type": "boolean" },
+        "unsorted": { "type": "boolean" }
+      },
+      "title": "Sort"
+    }
+  }
+}

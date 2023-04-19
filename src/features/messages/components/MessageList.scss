@@ -1,0 +1,86 @@
+@import '../../../custom.scss';
+
+.message-list {
+  .ant-list-items {
+    display: flex;
+    flex-direction: column-reverse;
+    .ant-list-item {
+      border: none;
+
+      .ant-comment-inner {
+        padding: 5px 6px 5px 0px;
+      }
+
+      .datetime {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        font-size: 12px;
+      }
+
+      .ant-comment-content-detail {
+        min-width: 200px;
+      }
+
+      .ant-comment.player-message {
+        .ant-comment-content {
+          padding-top: 12px;
+        }
+        .ant-comment-content-detail {
+          background: $primary;
+          padding: 10px;
+          color: #fff;
+          border-radius: 5px;
+          position: relative;
+
+          &:before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 0px;
+            width: 1px;
+            border: 12px solid $primary;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom: none;
+          }
+        }
+
+        .ant-comment-content-author-name {
+          color: #333;
+          font-size: 14px;
+        }
+
+        .ant-comment-avatar .ant-avatar,
+        .ant-comment-avatar .ant-avatar img {
+          width: 48px;
+          height: 48px;
+        }
+      }
+
+      .ant-comment.casino-message {
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        justify-content: flex-end;
+        .ant-comment-content-detail {
+          background: #dedede;
+          border-radius: 5px;
+          padding: 10px;
+
+          &:before {
+            content: '';
+            position: absolute;
+            right: -6px;
+            top: 4px;
+            width: 1px;
+            border: 12px solid #dedede;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+}

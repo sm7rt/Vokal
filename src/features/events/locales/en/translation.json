@@ -1,0 +1,46 @@
+{
+  "EVENT_NAME_LABEL": "Event Name",
+  "EVENT_WEBSITE_LABEL": "Website",
+  "EVENT_STARTING_DATE_LABEL": "Starting Date",
+  "EVENT_ENDING_DATE_LABEL": "Ending Date",
+  "EVENT_BANNER_LABEL": "Event Banner (Optional, use png or jpeg)",
+  "EVENT_BANNER_MANDATORY_LABEL": "Tournament Banner (use png or jpeg)",
+
+  "FORM_SEARCH_NAME": "search-festival",
+
+  "EVENT_TOURNAMENT_EMPTY_STATE": "All your poker festivals will be listed under this tab. To create your first poker festival, just click on the “New Special Event” button.",
+
+  "EVENT_FINISHED_TOURNAMENT_EMPTY_STATE": "Oops, it looks like we have currently nothing to display.",
+
+  "UPCOMING_TOURNAMENT_EMPTY_STATE": "Click on the “+” button in the table below to create your first tournament.",
+  "RUNNING_TOURNAMENT_EMPTY_STATE": "Oops, it looks like we have currently nothing to display. Start a tournament from this festival and it will appear here.",
+  "FINISHED_TOURNAMENT_EMPTY_STATE": "Oops, it looks like we have currently nothing to display. Finish a tournament from this festival and it will appear here.",
+
+  "SEARCH_EVENT_NAME_PLACEHOLDER": "Search by Festival Name",
+
+  "REMOVE_EVENT_CONFIRMATION_TEXT": "Are you sure you want to delete this event ?",
+  "EDIT_BANNER_TEXT": "Upload a new picture (jpeg or png file)",
+
+  "SEARCH_EVENT": "Search for a festival",
+  "CREATE_EVENT": "Create your festival",
+  "USE_PNG": "Use PNG or JPEG file",
+  "DATE_LABEL": "Date",
+
+  "RESET_BUTTON": "RESET SEARCH",
+  "SEARCH_BUTTON": "SEARCH",
+
+  "EVENT_CREATION_HEADER": "Create A New Event",
+  "EDIT_BANNER_HEADER": "Change Festival Banner",
+  "EDIT_EVENT_HEADER": "Edit event information",
+
+  "CREATE_MANAGE_SPECIAL_POKER_EVENTS": "Create & manage special poker events",
+  "RUNNING_EVENTS": "Upcoming & Running",
+  "FINISHED_EVENTS": "Finished",
+
+  "TOURNAMENT_INFORMATION": "Information",
+  "TOURNAMENT_FORMAT": "Format",
+  "TOURNAMENT_STRUCTURE": "Structure",
+  "TOURNAMENT_PLAYERS": "Players",
+  "TOURNAMENT_PAYOUT": "Payout",
+  "TOURNAMENT_RESULT": "Result"
+}

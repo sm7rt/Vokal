@@ -1,0 +1,218 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Service used to exchange messages between users or venue",
+    "version": "1.0",
+    "title": "Flop Messages Service",
+    "contact": {
+      "name": "WeOpt",
+      "url": "http://www.we-opt.com",
+      "email": "r.gelibert@we-opt.com"
+    }
+  },
+  "host": "a73ff76e5aa0b11e9b0610af9df371a1-c7a564daa90c3f2c.elb.eu-west-1.amazonaws.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Messages MicroService",
+      "description": "Get some messages text between users"
+    }
+  ],
+  "paths": {
+    "/api/": {
+      "post": {
+        "tags": ["Messages MicroService"],
+        "summary": "Add a new message for a specific game id.",
+        "operationId": "addMessageUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "addDto",
+            "description": "addDto",
+            "required": true,
+            "schema": { "$ref": "#/definitions/CreateMessageDTO" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "string" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/search/{entityType}/{entityId}": {
+      "get": {
+        "tags": ["Messages MicroService"],
+        "summary": "Used to find a message by its conversation.",
+        "operationId": "findByEntityIdUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "entityId",
+            "in": "path",
+            "description": "The entity id",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "entityType",
+            "in": "path",
+            "description": "The entity type",
+            "required": false,
+            "type": "string",
+            "enum": ["GAME"]
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number we want to get (from 1 to max page)",
+            "required": false,
+            "type": "integer",
+            "default": 1,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Paging size",
+            "required": false,
+            "type": "integer",
+            "default": 20,
+            "format": "int32",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Page«MessageDocument»" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/version": {
+      "get": {
+        "tags": ["Messages MicroService"],
+        "summary": "Service's version",
+        "operationId": "versionUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{messageId}": {
+      "get": {
+        "tags": ["Messages MicroService"],
+        "summary": "Used to retrieve the message.",
+        "operationId": "getCustomerByIdUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "messageId",
+            "in": "path",
+            "description": "The message id",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/MessageDocument" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "CreateMessageDTO": {
+      "type": "object",
+      "properties": {
+        "content": { "type": "string" },
+        "entityId": { "type": "string" },
+        "entityType": { "type": "string", "enum": ["GAME"] }
+      },
+      "title": "CreateMessageDTO"
+    },
+    "MessageDocument": {
+      "type": "object",
+      "properties": {
+        "authorId": { "type": "integer", "format": "int64" },
+        "authorRepresentativeId": { "type": "string" },
+        "content": { "type": "string" },
+        "creationDate": {
+          "type": "string",
+          "example": "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        },
+        "entityId": { "type": "string" },
+        "entityType": { "type": "string", "enum": ["GAME"] },
+        "id": { "type": "string" },
+        "modificationDate": {
+          "type": "string",
+          "example": "yyyy-MM-dd'T'HH:mm:ss.SSS"
+        }
+      },
+      "title": "MessageDocument"
+    },
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "offset": { "type": "integer", "format": "int64" },
+        "pageNumber": { "type": "integer", "format": "int32" },
+        "pageSize": { "type": "integer", "format": "int32" },
+        "paged": { "type": "boolean" },
+        "sort": { "$ref": "#/definitions/Sort" },
+        "unpaged": { "type": "boolean" }
+      },
+      "title": "Pageable"
+    },
+    "Page«MessageDocument»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/MessageDocument" }
+        },
+        "empty": { "type": "boolean" },
+        "first": { "type": "boolean" },
+        "last": { "type": "boolean" },
+        "number": { "type": "integer", "format": "int32" },
+        "numberOfElements": { "type": "integer", "format": "int32" },
+        "pageable": { "$ref": "#/definitions/Pageable" },
+        "size": { "type": "integer", "format": "int32" },
+        "sort": { "$ref": "#/definitions/Sort" },
+        "totalElements": { "type": "integer", "format": "int64" },
+        "totalPages": { "type": "integer", "format": "int32" }
+      },
+      "title": "Page«MessageDocument»"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": { "type": "boolean" },
+        "sorted": { "type": "boolean" },
+        "unsorted": { "type": "boolean" }
+      },
+      "title": "Sort"
+    }
+  }
+}

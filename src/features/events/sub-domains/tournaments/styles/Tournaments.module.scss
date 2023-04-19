@@ -1,0 +1,73 @@
+@import '../../../../../custom.scss';
+
+.editIcone {
+  font-size: 1em;
+  padding: 5px 10px;
+}
+
+.textForm {
+  font-size: 15px;
+  color: $greyDisable;
+}
+
+.lateDurationStyle {
+  width: 100px !important;
+}
+
+/***********************************/
+/*********** DataTable *************/
+/***********************************/
+.dataTableClassName {
+  border: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  border-radius: 10px;
+  width: 100%;
+  padding-bottom: 10px;
+  background: #fff;
+}
+
+.headerClassName {
+  font-size: 14px;
+  background: #fbfbfb;
+  /* Mid grey */
+  border-bottom: 1px solid #c4c4c4;
+  box-sizing: border-box;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.headerCellClassName {
+  border-right: 1px solid #c4c4c4;
+  padding: 10px;
+}
+
+.headerCellClassName:last-child {
+  border: none;
+}
+
+.rowClassName {
+  background: #ffffff;
+}
+
+.breakLine {
+  background: rgba(67, 185, 157, 0.2);
+  // color: #fff;
+}
+
+.cellClassName {
+  font-size: 12px;
+  padding: 10px;
+  border-right: 1px solid #c4c4c4;
+}
+
+.nameCell {
+  color: $primary;
+}
+
+.playerCell {
+  color: $primary;
+  text-decoration: underline;
+}
+
+.cellClassName:last-child {
+  border: none;
+}

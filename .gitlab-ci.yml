@@ -1,0 +1,226 @@
+## Stage List
+stages:
+  - build
+  - test
+  - deploy
+  - performance
+  - production
+
+include:
+  - template: SAST.gitlab-ci.yml
+  - template: Browser-Performance.gitlab-ci.yml
+
+## TODO - No Java project for the moment.
+## Variables / Parameters of the ci.
+variables:
+  API_URL_DEV: 'http://a73ff76e5aa0b11e9b0610af9df371a1-c7a564daa90c3f2c.elb.eu-west-1.amazonaws.com/flop'
+  API_URL_STAGING: 'http://a90ff6552788311e9b8a0060c9c44165-ee0542a8cdda9ee1.elb.eu-west-1.amazonaws.com/flop'
+  API_URL_PROD: 'https://api.firstlandofpoker.com/flop'
+  API_URL_AVAILABILITY_DEV: 'http://a25648297788311e9b0610af9df371a1-747948569.eu-west-1.elb.amazonaws.com'
+  API_URL_AVAILABILITY_STAGING: 'http://a7bf69479788311e9b8a0060c9c44165-1653432747.eu-west-1.elb.amazonaws.com'
+  API_URL_AVAILABILITY_PROD: 'https://d2y51kawbgpq2x.cloudfront.net'
+  S3_INTEGRATION_BUCKET: 'flop-ad-integration'
+  S3_STAGING_BUCKET: 'flop-ad-staging'
+  S3_PRD_BUCKET: 'flop-ad.firstlandofpoker.com-prod'
+  CLOUDFRONT_DISTRIBUTION_ID: 'E3PL6S3QY84FJA'
+  SAST_DISABLE_DIND: 'true'
+
+################################
+#### Cloud formation change ####
+################################
+cloudformation:
+  stage: deploy
+  image: docker:latest
+  services:
+    - docker:dind
+  before_script:
+    # Aws cli installation
+    - apk add --no-cache curl jq python py-pip git
+    - pip install awscli
+    - $(aws ecr get-login --no-include-email --region eu-west-1)
+    - docker info
+  script:
+    - aws cloudformation package --template-file cloudformation/s3_and_route53.yaml --output-template-file output-template.yaml --s3-bucket weopt-lambdas
+    - aws cloudformation deploy --template-file /builds/weopt-flop/flop/flop-web-ad/output-template.yaml --stack-name FLOPADWebsiteInfra --parameter-overrides DomainName=firstlandofpoker.com FLOPADDomainName=flop-ad.firstlandofpoker.com AcmCertificateArn=arn:aws:acm:us-east-1:425010277789:certificate/e7eaf67f-16db-4fab-89fd-b31ab61adfd3 --tags Application=FLOP_AD ApplicationType=website Name=FLOPADInfrastructure
+    - aws cloudformation describe-stacks --stack-name FLOPADWebsiteInfra
+  only:
+    refs:
+      - branches
+    changes:
+      - cloudformation/**/*
+      - .gitlab-ci.yml
+  when: manual
+
+################ BUILD #####################
+build:
+  stage: build
+  image: nikolaik/python-nodejs:python3.5-nodejs8
+  before_script:
+    - git --version
+    # GIT Token
+    - url_host=`git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g"`
+    - git remote set-url origin "https://gitlab-ci-token:${CI_TAG_UPLOAD_TOKEN}@${url_host}"
+    # Config GIT
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    ## Yarn install
+    - yarn install --ignore-engines
+  variables:
+    API_URL: $API_URL_DEV
+  script:
+    - yarn build # Build
+  only:
+    refs:
+      - branches
+    changes:
+      - src/**/*
+  tags:
+    - docker
+
+################ Unit Test + E2E Test + Sonarqube #####################
+test:
+  stage: build
+  image: registry.gitlab.com/weopt-flop/weopt-tools/ubuntu-nodejs:latest
+  ## Install dependencies
+  before_script:
+    # First update
+    - apt-get update # Install transport https
+    - apt-get install apt-transport-https
+    - curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+    - echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+    - apt-get update
+    # Install Cypress dependencies
+    - echo "y" | apt-get install xvfb libgtk-3-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2
+    ## Yarn install
+    - yarn install --ignore-engines
+  script:
+    ## We just let version display for now
+    - java -version
+    - ./node_modules/sonar-scanner/bin/sonar-scanner --version
+    - yarn coverage # Classic Test
+    - yarn test:e2e:ci # Test e2e
+    - yarn lint:report || true
+    - ls -lh ./*
+    - ./node_modules/sonar-scanner/bin/sonar-scanner -Dsonar.host.url=$SONARQUBE_SERVER -Dsonar.login=$SONARQUBE_TOKEN -Dproject.settings=../../../sonar-project.properties
+  tags:
+    - docker
+  only:
+    refs:
+      - branches
+    changes:
+      - cypress/**/*
+      - src/**/*
+
+################ INTEGRATION #####################""
+integration:
+  stage: deploy
+  # Use a
+  image: nikolaik/python-nodejs:python3.5-nodejs8
+  ## Install dependencies
+  before_script:
+    - git --version
+    # GIT Token
+    - url_host=`git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g"`
+    - git remote set-url origin "https://gitlab-ci-token:${CI_TAG_UPLOAD_TOKEN}@${url_host}"
+    # Config GIT
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    ## Yarn install
+    - yarn install --ignore-engines
+  variables:
+    API_URL: $API_URL_DEV
+    API_URL_AVAILABILITY: $API_URL_AVAILABILITY_DEV
+  script:
+    #- yarn translate # Translate
+    - yarn build # build
+    - pip install awscli
+    ## We do the s3 copy
+    - aws s3 cp ./build/ s3://$S3_INTEGRATION_BUCKET/ --recursive --include "*"
+  environment:
+    name: staging
+    url: http://$S3_INTEGRATION_BUCKET.s3-website-eu-west-1.amazonaws.com/
+  only:
+    refs:
+      - branches
+  when: manual
+
+################ STAGING #####################""
+staging:
+  stage: deploy
+  # Use a
+  image: nikolaik/python-nodejs:python3.5-nodejs8
+  ## Install dependencies
+  before_script:
+    - git --version
+    # GIT Token
+    - url_host=`git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g"`
+    - git remote set-url origin "https://gitlab-ci-token:${CI_TAG_UPLOAD_TOKEN}@${url_host}"
+    # Config GIT
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    ## Yarn install
+    - yarn install --ignore-engines
+  variables:
+    API_URL: $API_URL_STAGING
+    API_URL_AVAILABILITY: $API_URL_AVAILABILITY_STAGING
+  script:
+    #- yarn translate # Translate
+    - yarn build # Build
+    - pip install awscli
+    ## We do the s3 copy
+    - aws s3 cp ./build/ s3://$S3_STAGING_BUCKET/ --recursive --include "*"
+    - git tag -a $CI_COMMIT_SHA -m "Version created through gitlab-ci"
+    - git push origin $CI_COMMIT_SHA
+    - git push origin HEAD:develop
+  environment:
+    name: staging
+    url: http://$S3_STAGING_BUCKET.s3-website-eu-west-1.amazonaws.com/
+  only:
+    refs:
+      - branches
+  when: manual
+
+################ PERFORMANCE #####################""
+performance:
+  variables:
+    URL: http://flop-ad-integration.s3-website.us-east-2.amazonaws.com/admin
+  only:
+    refs:
+      - branches
+  when: manual
+
+################ PRODUCTION #####################"
+
+## Production.
+production:
+  stage: production
+  only:
+    - tags
+  # Use a
+  image: nikolaik/python-nodejs:python3.5-nodejs8
+  before_script:
+    - git --version
+    # GIT Token
+    - url_host=`git remote get-url origin | sed -e "s/https:\/\/gitlab-ci-token:.*@//g"`
+    - git remote set-url origin "https://gitlab-ci-token:${CI_TAG_UPLOAD_TOKEN}@${url_host}"
+    # Config GIT
+    - git config --global user.name "${GITLAB_USER_NAME}"
+    - git config --global user.email "${GITLAB_USER_EMAIL}"
+    ## Yarn install
+    - yarn install --ignore-engines
+  script:
+    - yarn build # Build
+    - pip install awscli
+    ## We do the s3 copy
+    - aws s3 cp ./build/ s3://$S3_PRD_BUCKET/ --recursive --include "*"
+    ## Invalidate all cloudfront cache to expose the new distribution
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+  variables:
+    API_URL: $API_URL_PROD
+    API_URL_AVAILABILITY: $API_URL_AVAILABILITY_PROD
+  dependencies:
+    - build
+  environment:
+    name: production
+    url: https://flop-ad.firstlandofpoker.com
+  when: manual

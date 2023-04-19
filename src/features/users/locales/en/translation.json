@@ -1,0 +1,40 @@
+{
+  "USERS_STATUS_LABEL": "Status",
+  "USERS_EMAIL_ADDRESS_LABEL": "Email address",
+  "USERS_FIRSTNAME_LABEL": "Firstname",
+  "USERS_LASTNAME_LABEL": "Lastname",
+  "USERS_ROLE_LABEL": "Role",
+  "USERS_CHANGE_ROLE": "Change role",
+  "USERS_RESEND_INVITATION": "Resend invitation",
+  "USERS_RESEND_INVITATION_CONFIRM": "Are you sure you want to send a new invitation email to {{emailAddress}}?",
+  "USERS_SURE_DELETE": "Are you sure you want to delete the following account? {{emailAddress}}",
+  "USERS_DELETE_ACCOUNT": "Delete Account",
+  "USERS_SEARCH_LABEL": "Search for :",
+  "USERS_INVITE_COLLABORATOR": "Invite a collaborator",
+  "USERS_INVITE_EMAIL_ADDRESS_LABEL": "User email address",
+  "USERS_INVITE_ROLE_LABEL": "User role",
+  "CHANGE_ROLE": "Change role",
+
+  "DELETE_ACCOUNT_SUCCESS": "This user account was successfully deleted",
+  "DELETE_ACCOUNT_ACTION_ERROR": "We cannot delete this user",
+  "RESEND_INVITATION_ACCOUNT_SUCCESS": "A new invitation was send to {{emailAddress}}.",
+  "RESEND_INVITATION_ACCOUNT_ACTION_ERROR": "resend an invitation",
+  "EDIT_USER_ACCOUNT_SUCCESS": "This user account was successfully updated.",
+  "EDIT_USER_ACCOUNT_ACTION_ERROR": "We cannot edit this user",
+  "INVITE_USER_SUCCESS": "The invitation was sent to : {{emailAddress}}.",
+  "INVITE_USER_ACTION_ERROR": "We cannot invite this user",
+
+  "USER_ACCOUNT_TITLE": "User Account",
+
+  "ABOUT": "About",
+  "CONTACT": "Contact",
+
+  "PLACEHOLDER_FIRSTNAME": "Firstname",
+  "PLACEHOLDER_LASTNAME": "Lastname",
+  "PLACEHOLDER_COUNTRY": "Country",
+  "PLACEHOLDER_CITY": "City",
+  "PLACEHOLDER_EMAIL": "Email address",
+  "EMAIL_SETTINGS_TEXT": "Use the settings section to change email address",
+  "PLACEHOLDER_PHONE": "Phone number",
+  "EDIT_PROFILE_BUTTON": "Edit Profile"
+}

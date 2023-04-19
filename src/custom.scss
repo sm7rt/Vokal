@@ -1,0 +1,17 @@
+//Colors
+$primary: #43b99d;
+$secondary: #2b2b2b;
+$secondaryLight: #434652;
+$darkGrey: #1d222e;
+$grey: #fbfbfb;
+$greyMiddleLight: #c4c4c4;
+$greyLight: #dedede;
+$greyDisable: #8d8d8d;
+
+.text-secondaryLight {
+  color: $secondaryLight !important;
+}
+.text-greyDisable {
+  color: $greyDisable !important;
+}
+@import '~bootstrap/scss/bootstrap.scss';

@@ -1,0 +1,14 @@
+{
+  "files.eol": "\n",
+  // Format a file on save. A formatter must be available, the file must not be auto-saved, and editor must not be shutting down.
+  "eslint.autoFixOnSave": true,
+  "editor.codeActionsOnSave": {
+      "source.fixAll.tslint": true
+  },
+  "javascript.format.enable": false,
+  // Enable/disable JavaScript validation. (For Flow)
+  "javascript.validate.enable": false,
+  "editor.formatOnSave": true,
+  // // Use 'prettier-eslint' instead of 'prettier'. Other settings will only be fallbacks in case they could not be inferred from eslint rules.
+  // "prettier.eslintIntegration": true
+}

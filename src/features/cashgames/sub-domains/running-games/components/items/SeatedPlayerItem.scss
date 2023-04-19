@@ -1,0 +1,46 @@
+.seated-player-item {
+  height: 100px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+
+  &.delete-overlay {
+    background: rgba(245, 34, 45, 0.05);
+    .seat-table {
+      background: rgba(245, 34, 45, 0.1) !important;
+      /* @success-color */
+      border: 1px solid #f5222d !important;
+      color: #f5222d !important;
+    }
+  }
+
+  .confirm-text {
+    width: 150px;
+  }
+
+  .seat-table {
+    width: 90px;
+    border-radius: 16px;
+    padding: 5px 10px;
+    text-align: center;
+
+    &.occuped {
+      border: 1px solid #819299;
+      background: rgba(129, 146, 153, 0.2);
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    &.reserved {
+      background: rgba(24, 144, 255, 0.1);
+      /* @primary-color */
+      border: 1px solid #1890ff;
+      color: #1890ff;
+    }
+
+    &.free {
+      background: rgba(82, 196, 26, 0.1);
+      /* @success-color */
+      border: 1px solid #52c41a;
+      color: #52c41a;
+    }
+  }
+}

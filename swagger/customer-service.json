@@ -1,0 +1,261 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Service used to customers business",
+    "version": "1.0",
+    "title": "Flop Customers Service",
+    "contact": {
+      "name": "WeOpt",
+      "url": "http://www.we-opt.com",
+      "email": "r.gelibert@we-opt.com"
+    }
+  },
+  "host": "a3797747a788311e9b0610af9df371a1-1334659341.eu-west-1.elb.amazonaws.com",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Customer Requests",
+      "description": "Create and Get all customer requests"
+    },
+    { "name": "Workflow management", "description": "Workflow management" },
+    { "name": "all", "description": "Create and Get all customer requests" }
+  ],
+  "paths": {
+    "/api/": {
+      "post": {
+        "tags": ["Customer Requests", "all"],
+        "summary": "Operation to add a new customer.",
+        "operationId": "addNewCustomerUsingPOST",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "customerCreationDto",
+            "description": "The customer DTO to create",
+            "required": false,
+            "schema": { "$ref": "#/definitions/CustomerAccountCreationDTO" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/activate/customer": {
+      "post": {
+        "tags": ["Workflow management", "all"],
+        "summary": "Email account activation.",
+        "operationId": "addNewCustomerUsingPOST_1",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "activationToken",
+            "in": "query",
+            "description": "The linked activation token",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "emailAdmin",
+            "in": "query",
+            "description": "The email to validate",
+            "required": false,
+            "type": "string",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/pending": {
+      "get": {
+        "tags": ["Customer Requests", "all"],
+        "summary": "Used to retrieve the pending customers.",
+        "operationId": "getPendingRequestsPaginatedUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Page number we want to get (from 1 to max page)",
+            "required": false,
+            "type": "integer",
+            "default": 1,
+            "format": "int32",
+            "allowEmptyValue": false
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "Paging size",
+            "required": false,
+            "type": "integer",
+            "default": 20,
+            "format": "int32",
+            "allowEmptyValue": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Page«Customer»" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/version": {
+      "get": {
+        "tags": ["Customer Requests", "all"],
+        "summary": "Service's version",
+        "operationId": "versionUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{id}": {
+      "get": {
+        "tags": ["Customer Requests", "all"],
+        "summary": "Used to retrieve the customer document by its id.",
+        "operationId": "getCustomerByIdUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "The entity id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Customer" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Address": {
+      "type": "object",
+      "properties": {
+        "city": { "type": "string" },
+        "country": { "type": "string" },
+        "countryCode": { "type": "string" },
+        "postalCode": { "type": "string" },
+        "state": { "type": "string" },
+        "streetAddress": { "type": "string" }
+      },
+      "title": "Address"
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "activationToken": { "type": "string" },
+        "address": { "$ref": "#/definitions/Address" },
+        "brand": { "type": "string" },
+        "brandLowerCaseIndex": { "type": "string" },
+        "creationDate": { "type": "string", "format": "date-time" },
+        "emailAdminUser": { "type": "string" },
+        "emailContact": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" },
+        "licence": { "type": "string" },
+        "modificationDate": { "type": "string", "format": "date-time" },
+        "phoneNumber": { "type": "string" },
+        "referenceNumber": { "type": "string" },
+        "requestState": {
+          "type": "string",
+          "enum": ["MAIL_NOT_VALIDATED", "PENDING", "VALIDATED", "REFUSED"]
+        },
+        "type": { "type": "string", "enum": ["CASINO", "OPERATOR"] }
+      },
+      "title": "Customer"
+    },
+    "CustomerAccountCreationDTO": {
+      "type": "object",
+      "properties": {
+        "address": { "$ref": "#/definitions/Address" },
+        "brand": { "type": "string" },
+        "emailAdminUser": { "type": "string" },
+        "emailContact": { "type": "string" },
+        "licence": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "referenceNumber": { "type": "string" },
+        "type": { "type": "string", "enum": ["CASINO", "OPERATOR"] }
+      },
+      "title": "CustomerAccountCreationDTO"
+    },
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "offset": { "type": "integer", "format": "int64" },
+        "pageNumber": { "type": "integer", "format": "int32" },
+        "pageSize": { "type": "integer", "format": "int32" },
+        "paged": { "type": "boolean" },
+        "sort": { "$ref": "#/definitions/Sort" },
+        "unpaged": { "type": "boolean" }
+      },
+      "title": "Pageable"
+    },
+    "Page«Customer»": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Customer" }
+        },
+        "empty": { "type": "boolean" },
+        "first": { "type": "boolean" },
+        "last": { "type": "boolean" },
+        "number": { "type": "integer", "format": "int32" },
+        "numberOfElements": { "type": "integer", "format": "int32" },
+        "pageable": { "$ref": "#/definitions/Pageable" },
+        "size": { "type": "integer", "format": "int32" },
+        "sort": { "$ref": "#/definitions/Sort" },
+        "totalElements": { "type": "integer", "format": "int64" },
+        "totalPages": { "type": "integer", "format": "int32" }
+      },
+      "title": "Page«Customer»"
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": { "type": "boolean" },
+        "sorted": { "type": "boolean" },
+        "unsorted": { "type": "boolean" }
+      },
+      "title": "Sort"
+    }
+  }
+}

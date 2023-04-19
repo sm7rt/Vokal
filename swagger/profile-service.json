@@ -1,0 +1,504 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Service used to profile business",
+    "version": "1.0",
+    "title": "Flop Profile Service",
+    "contact": {
+      "name": "WeOpt",
+      "url": "http://www.we-opt.com",
+      "email": "r.gelibert@we-opt.com"
+    }
+  },
+  "host": "a3797747a788311e9b0610af9df371a1-1334659341.eu-west-1.elb.amazonaws.com",
+  "basePath": "/flop/profiles",
+  "tags": [
+    {
+      "name": "Admin",
+      "description": "Operations used for administration operation (delete, etc...)"
+    },
+    { "name": "Permissions", "description": "Permissions controller" },
+    { "name": "PrivacySettings", "description": "PrivacySettings controller" },
+    {
+      "name": "Profile MicroService",
+      "description": "Updating profile operations (informations update, image profile, etc...)"
+    }
+  ],
+  "paths": {
+    "/api/admin/delete/datas": {
+      "delete": {
+        "tags": ["Admin"],
+        "summary": "Delete all datas",
+        "operationId": "deleteDatasUsingDELETE",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "204": { "description": "No Content" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/permission/invite/{targetAccountId}": {
+      "get": {
+        "tags": ["Permissions"],
+        "summary": "Determine if the current user send an invitation to the targeted user.",
+        "operationId": "canInviteUserUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "targetAccountId",
+            "in": "path",
+            "description": "The user id we target",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "boolean" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/permission/posts/{targetAccountId}": {
+      "get": {
+        "tags": ["Permissions"],
+        "summary": "Determine if the current user can see the posts of the target id",
+        "operationId": "canSeePostsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "targetAccountId",
+            "in": "path",
+            "description": "The user id we target",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "boolean" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/permission/profile/{targetAccountId}": {
+      "get": {
+        "tags": ["Permissions"],
+        "summary": "Determine if the current user can see the user profile",
+        "operationId": "canSeeProfileDetailsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "targetAccountId",
+            "in": "path",
+            "description": "The user id we target",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "boolean" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/search": {
+      "get": {
+        "tags": ["Profile MicroService"],
+        "summary": "Query on profile. The search is case and accent insensitive.",
+        "operationId": "searchUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "query",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Iterable«Profile»" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/settings/account/{accountId}": {
+      "get": {
+        "tags": ["PrivacySettings"],
+        "summary": "Get privacy settings.",
+        "operationId": "getSettingsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/PrivacySettings" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["PrivacySettings"],
+        "summary": "Save privacy settings.",
+        "operationId": "saveSettingsUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "settingsDTO",
+            "description": "DTO Representation of the settings form",
+            "required": false,
+            "schema": { "$ref": "#/definitions/SettingsPrivacyUpdateDto" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/settings/notifications/{accountId}": {
+      "get": {
+        "tags": ["PrivacySettings"],
+        "summary": "Get notification settings.",
+        "operationId": "getNotificationsSettingsUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/NotificationSettings" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["PrivacySettings"],
+        "summary": "Save notification settings.",
+        "operationId": "saveNotificationsSettingsUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "path",
+            "description": "The account id",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "settingsDTO",
+            "description": "DTO Representation of the notification settings form",
+            "required": false,
+            "schema": { "$ref": "#/definitions/SettingsNotificationUpdateDto" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/version": {
+      "get": {
+        "tags": ["Profile MicroService"],
+        "summary": "Service's version",
+        "operationId": "versionUsingGET",
+        "produces": ["*/*"],
+        "responses": {
+          "200": { "description": "OK", "schema": { "type": "object" } },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    },
+    "/api/{id}": {
+      "get": {
+        "tags": ["Profile MicroService"],
+        "summary": "Profile display for a special Id",
+        "operationId": "getByIdUsingGET",
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/ProfileDTO" }
+          },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": ["Profile MicroService"],
+        "summary": "Profile update",
+        "description": "You can update a profile here",
+        "operationId": "updateAccountUsingPUT",
+        "consumes": ["application/json"],
+        "produces": ["*/*"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "id",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "profile",
+            "description": "profile",
+            "required": true,
+            "schema": { "$ref": "#/definitions/ProfileDTO" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Profile" }
+          },
+          "201": { "description": "Created" },
+          "401": { "description": "Unauthorized" },
+          "403": { "description": "Forbidden" },
+          "404": { "description": "Not Found" }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "Iterable«Profile»": { "type": "object", "title": "Iterable«Profile»" },
+    "NotificationSettings": {
+      "type": "object",
+      "properties": {
+        "accountId": { "type": "integer", "format": "int64" },
+        "claps": { "type": "boolean" },
+        "comments": { "type": "boolean" },
+        "creationDate": { "type": "string", "format": "date-time" },
+        "crewRequest": { "type": "boolean" },
+        "id": { "type": "integer", "format": "int64" },
+        "modificationDate": { "type": "string", "format": "date-time" },
+        "shares": { "type": "boolean" }
+      },
+      "title": "NotificationSettings"
+    },
+    "PrivacySettings": {
+      "type": "object",
+      "properties": {
+        "accountId": { "type": "integer", "format": "int64" },
+        "canInvite": {
+          "type": "string",
+          "enum": [
+            "EVERYONE",
+            "MY_FRIENDS_AND_THEIR_FRIENDS",
+            "ONLY_MY_FRIENDS",
+            "ONLY_ME"
+          ]
+        },
+        "creationDate": { "type": "string", "format": "date-time" },
+        "id": { "type": "integer", "format": "int64" },
+        "modificationDate": { "type": "string", "format": "date-time" },
+        "seePost": {
+          "type": "string",
+          "enum": [
+            "EVERYONE",
+            "MY_FRIENDS_AND_THEIR_FRIENDS",
+            "ONLY_MY_FRIENDS",
+            "ONLY_ME"
+          ]
+        },
+        "seeProfileDetails": {
+          "type": "string",
+          "enum": [
+            "EVERYONE",
+            "MY_FRIENDS_AND_THEIR_FRIENDS",
+            "ONLY_MY_FRIENDS",
+            "ONLY_ME"
+          ]
+        }
+      },
+      "title": "PrivacySettings"
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "additionalCurrencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "birthDate": { "type": "string", "format": "date" },
+        "casinos": { "type": "array", "items": { "type": "string" } },
+        "cities": { "type": "array", "items": { "type": "string" } },
+        "city": { "type": "string" },
+        "countries": { "type": "array", "items": { "type": "string" } },
+        "country": { "type": "string" },
+        "countryCode": { "type": "string" },
+        "creationDate": { "type": "string", "format": "date-time" },
+        "emailAddress": { "type": "string" },
+        "firstName": { "type": "string" },
+        "gameSizes": { "type": "array", "items": { "type": "string" } },
+        "gameVariants": { "type": "array", "items": { "type": "string" } },
+        "gender": { "type": "string" },
+        "id": { "type": "integer", "format": "int64" },
+        "lastName": { "type": "string" },
+        "mainCurrency": { "type": "string" },
+        "mediaPreferences": { "type": "array", "items": { "type": "string" } },
+        "modificationDate": { "type": "string", "format": "date-time" },
+        "phoneNumber": { "type": "string" },
+        "secondName": { "type": "string" },
+        "userName": { "type": "string" },
+        "zones": { "type": "array", "items": { "type": "string" } }
+      },
+      "title": "Profile"
+    },
+    "ProfileDTO": {
+      "type": "object",
+      "properties": {
+        "additionalCurrencies": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "age": { "type": "integer", "format": "int32" },
+        "birthDate": { "type": "string", "format": "date" },
+        "casinos": { "type": "array", "items": { "type": "string" } },
+        "cities": { "type": "array", "items": { "type": "string" } },
+        "city": { "type": "string" },
+        "countries": { "type": "array", "items": { "type": "string" } },
+        "country": { "type": "string" },
+        "countryCode": { "type": "string" },
+        "emailAddress": { "type": "string" },
+        "firstName": { "type": "string" },
+        "gameSizes": { "type": "array", "items": { "type": "string" } },
+        "gameVariants": { "type": "array", "items": { "type": "string" } },
+        "gender": { "type": "string" },
+        "lastName": { "type": "string" },
+        "mainCurrency": { "type": "string" },
+        "mediaPreferences": { "type": "array", "items": { "type": "string" } },
+        "phoneNumber": { "type": "string" },
+        "secondName": { "type": "string" },
+        "userName": { "type": "string" },
+        "zones": { "type": "array", "items": { "type": "string" } }
+      },
+      "title": "ProfileDTO"
+    },
+    "SettingsNotificationUpdateDto": {
+      "type": "object",
+      "properties": {
+        "claps": { "type": "boolean" },
+        "comments": { "type": "boolean" },
+        "crewRequest": { "type": "boolean" },
+        "shares": { "type": "boolean" }
+      },
+      "title": "SettingsNotificationUpdateDto"
+    },
+    "SettingsPrivacyUpdateDto": {
+      "type": "object",
+      "properties": {
+        "canInvite": {
+          "type": "string",
+          "enum": [
+            "EVERYONE",
+            "MY_FRIENDS_AND_THEIR_FRIENDS",
+            "ONLY_MY_FRIENDS",
+            "ONLY_ME"
+          ]
+        },
+        "seePost": {
+          "type": "string",
+          "enum": [
+            "EVERYONE",
+            "MY_FRIENDS_AND_THEIR_FRIENDS",
+            "ONLY_MY_FRIENDS",
+            "ONLY_ME"
+          ]
+        },
+        "seeProfileDetails": {
+          "type": "string",
+          "enum": [
+            "EVERYONE",
+            "MY_FRIENDS_AND_THEIR_FRIENDS",
+            "ONLY_MY_FRIENDS",
+            "ONLY_ME"
+          ]
+        }
+      },
+      "title": "SettingsPrivacyUpdateDto"
+    }
+  }
+}
